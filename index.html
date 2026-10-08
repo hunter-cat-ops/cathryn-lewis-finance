@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cathryn Lewis | Financial Analysis Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f4f3;--paper:#fff;--ink:#14292e;--muted:#5b6b6f;--line:#d5dcdb;--accent:#0f5c55;--gold:#c58a12;--bad:#a63a2b;--good:#1c6b3d}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1a1d;--paper:#152428;--ink:#e6eeed;--muted:#93a6a8;--line:#27393d;--accent:#5fc2b4;--gold:#e3b04b;--bad:#e07a6a;--good:#6fcf97}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700}
+h2{font-size:1.8rem}h3{font-size:1.2rem}
+header{background:var(--accent);color:#fff;padding:1rem 1.25rem 0}
+.top{max-width:1000px;margin:auto}
+.brand{font-family:Newsreader,Georgia,serif;font-size:1.25rem;font-weight:700}
+nav{display:flex;gap:.25rem;overflow-x:auto;margin-top:.75rem}
+nav button{background:none;border:0;color:#d4ebe7;font:500 1rem "IBM Plex Sans",sans-serif;padding:.7rem 1.1rem;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button[aria-selected=true]{color:#fff;border-bottom-color:#f1c453}
+nav button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.go:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+main{max-width:1000px;margin:auto;padding:2rem 1.25rem 3rem}
+section[hidden]{display:none}
+.lede{font-size:1.2rem;max-width:60ch}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:1.25rem;margin:1.25rem 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+label{display:block;font-weight:500;font-size:.9rem;margin-bottom:.25rem}
+input,textarea,select{width:100%;font:inherit;padding:.5rem .6rem;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+textarea{font-family:ui-monospace,Menlo,monospace;font-size:.82rem;min-height:150px}
+.hint{color:var(--muted);font-size:.88rem}
+.go{background:var(--accent);color:#fff;border:0;border-radius:4px;font:600 1rem "IBM Plex Sans",sans-serif;padding:.75rem 1.5rem;cursor:pointer;margin-top:1rem}
+.go:hover{filter:brightness(1.1)}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--muted);font-size:.88rem}
+td.n{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+th.n{text-align:right}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+.err{color:var(--bad);font-weight:500}
+details{margin-top:.75rem}summary{cursor:pointer;font-weight:500}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:1.5rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand">Cathryn Lewis &mdash; Financial Analysis Toolkit</div>
+    <nav role="tablist" aria-label="Site sections">
+      <button role="tab" id="t-home" data-tab="home" aria-selected="true">Home</button>
+      <button role="tab" id="t-about" data-tab="about" aria-selected="false">About</button>
+      <button role="tab" id="t-analysis" data-tab="analysis" aria-selected="false">Financial Analysis</button>
+      <button role="tab" id="t-contact" data-tab="contact" aria-selected="false">Contact</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section id="home">
+  <h1>Turn a price history into risk and return numbers.</h1>
+  <p class="lede">This site calculates how a stock has performed, how risky it has been, and how it moves with the market. Paste in prices, pick a benchmark, and get results in seconds.</p>
+  <div class="grid">
+    <div class="panel"><h3>Performance</h3><p>Holding-period return, annualized return, excess return over a benchmark, Sharpe and Treynor ratios.</p></div>
+    <div class="panel"><h3>Risk</h3><p>Volatility, beta, CAPM alpha, and correlation between two stocks.</p></div>
+    <div class="panel"><h3>Valuation</h3><p>Market cap, P/E ratio, dividend yield, and book-to-market ratio.</p></div>
+  </div>
+  <button class="go" onclick="show('analysis')">Open Financial Analysis</button>
+</section>
+
+<section id="about" hidden>
+  <h2>About</h2>
+  <p><strong>Student:</strong> Cathryn Lewis</p>
+  <p><strong>Course:</strong> Entrepreneurial Finance, Rogers State University</p>
+  <p class="lede">I built this website for a class assignment on financial analysis. It uses JavaScript to compute return, risk, and valuation measures from data you enter. All math runs in your browser, and nothing is sent to a server.</p>
+  <div class="panel">
+    <h3>Methods used</h3>
+    <ul>
+      <li>Simple periodic returns: P<sub>t</sub> / P<sub>t-1</sub> &minus; 1</li>
+      <li>Annualized return: (1 + holding-period return)<sup>periods per year / number of periods</sup> &minus; 1</li>
+      <li>Volatility: sample standard deviation of periodic returns, multiplied by &radic;(periods per year)</li>
+      <li>Beta: Cov(excess stock return, excess market return) / Var(excess market return)</li>
+      <li>CAPM alpha: average excess stock return &minus; beta &times; average excess market return, annualized</li>
+      <li>Sharpe: annualized excess return / annualized volatility. Treynor: annualized excess return / beta</li>
+    </ul>
+  </div>
+</section>
+
+<section id="analysis" hidden>
+  <h2>Financial Analysis</h2>
+  <p class="hint">The boxes below are pre-filled with <strong>sample numbers for demonstration only</strong>. Replace them with real prices (for example, monthly adjusted closes from Yahoo Finance) before using the results.</p>
+
+  <form class="panel" id="f1" onsubmit="return false">
+    <h3>1. Returns, risk, and portfolio</h3>
+    <div class="grid">
+      <div><label for="nA">Stock A ticker</label><input id="nA" value="STOCK A"></div>
+      <div><label for="nB">Stock B ticker</label><input id="nB" value="STOCK B"></div>
+      <div><label for="nM">Benchmark name</label><input id="nM" value="S&amp;P 500"></div>
+      <div><label for="freq">Data frequency</label>
+        <select id="freq"><option value="12" selected>Monthly (12 per year)</option><option value="52">Weekly (52 per year)</option><option value="252">Daily (252 per year)</option></select></div>
+      <div><label for="rf">Risk-free rate (annual %)</label><input id="rf" type="number" step="0.01" value="4.5"></div>
+      <div><label for="wA">Weight in Stock A (%)</label><input id="wA" type="number" step="1" min="0" max="100" value="60"></div>
+    </div>
+    <div class="grid" style="margin-top:1rem">
+      <div><label for="pA">Stock A prices</label><textarea id="pA">2025-01-31,100.00
+2025-02-28,103.20
+2025-03-31,99.80
+2025-04-30,106.50
+2025-05-30,110.10
+2025-06-30,108.40
+2025-07-31,114.90
+2025-08-29,118.20
+2025-09-30,113.70
+2025-10-31,120.60
+2025-11-28,125.30
+2025-12-31,129.80
+2026-01-30,127.90</textarea></div>
+      <div><label for="pB">Stock B prices</label><textarea id="pB">2025-01-31,50.00
+2025-02-28,50.90
+2025-03-31,51.40
+2025-04-30,50.10
+2025-05-30,52.30
+2025-06-30,53.00
+2025-07-31,52.20
+2025-08-29,54.10
+2025-09-30,53.40
+2025-10-31,55.60
+2025-11-28,56.20
+2025-12-31,57.90
+2026-01-30,58.40</textarea></div>
+      <div><label for="pM">Benchmark prices</label><textarea id="pM">2025-01-31,4800
+2025-02-28,4890
+2025-03-31,4820
+2025-04-30,4985
+2025-05-30,5080
+2025-06-30,5050
+2025-07-31,5210
+2025-08-29,5290
+2025-09-30,5200
+2025-10-31,5370
+2025-11-28,5460
+2025-12-31,5550
+2026-01-30,5520</textarea></div>
+    </div>
+    <p class="hint">One price per line, oldest first. Use "date,price" or just the price. All three lists must have the same number of rows.</p>
+    <button class="go" onclick="runReturns()">Calculate</button>
+    <div id="o1" aria-live="polite"></div>
+  </form>
+
+  <form class="panel" id="f2" onsubmit="return false">
+    <h3>2. Company valuation</h3>
+    <div class="grid">
+      <div><label for="px">Share price ($)</label><input id="px" type="number" step="any" value="129.80"></div>
+      <div><label for="sh">Shares outstanding (millions)</label><input id="sh" type="number" step="any" value="1500"></div>
+      <div><label for="eps">Earnings per share, last 12 months ($)</label><input id="eps" type="number" step="any" value="6.20"></div>
+      <div><label for="dv">Annual dividends per share ($)</label><input id="dv" type="number" step="any" value="1.40"></div>
+      <div><label for="be">Book value of equity ($ millions)</label><input id="be" type="number" step="any" value="60000"></div>
+    </div>
+    <button class="go" onclick="runValuation()">Calculate</button>
+    <div id="o2" aria-live="polite"></div>
+  </form>
+</section>
+
+<section id="contact" hidden>
+  <h2>Contact</h2>
+  <div class="panel">
+    <p><strong>Name:</strong> Cathryn Lewis</p>
+    <p><strong>Email:</strong> <a href="mailto:you@university.edu">you@university.edu</a></p>
+    <p><strong>GitHub:</strong> <a href="https://github.com/your-username">github.com/your-username</a></p>
+    <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/your-profile">linkedin.com/in/your-profile</a></p>
+  </div>
+</section>
+</main>
+<footer>&copy; 2026 Cathryn Lewis. For educational use only; not investment advice.</footer>
+
+<script>
+const TABS=['home','about','analysis','contact'];
+function show(id){
+  TABS.forEach(t=>{
+    document.getElementById(t).hidden=t!==id;
+    document.getElementById('t-'+t).setAttribute('aria-selected',t===id);
+  });
+  history.replaceState(null,'','#'+id);window.scrollTo(0,0);
+}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+if(TABS.includes(location.hash.slice(1)))show(location.hash.slice(1));
+
+const $=id=>document.getElementById(id);
+const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+const cov=(a,b)=>{const ma=mean(a),mb=mean(b);return a.reduce((s,x,i)=>s+(x-ma)*(b[i]-mb),0)/(a.length-1)};
+const sd=a=>Math.sqrt(cov(a,a));
+const pct=(x,d=2)=>(x*100).toFixed(d)+'%';
+const num=(x,d=2)=>isFinite(x)?x.toFixed(d):'n/a';
+const cls=x=>x>=0?'pos':'neg';
+
+function parse(txt){
+  const out=txt.trim().split(/\n+/).map(l=>parseFloat(l.split(',').pop().replace(/[$\s]/g,'')));
+  if(out.length<3||out.some(x=>!(x>0)))throw new Error('Each price list needs at least 3 positive numbers, one per line.');
+  return out;
+}
+const rets=p=>p.slice(1).map((x,i)=>x/p[i]-1);
+
+function runReturns(){
+  const o=$('o1');
+  try{
+    const A=parse($('pA').value),B=parse($('pB').value),M=parse($('pM').value);
+    if(A.length!==B.length||A.length!==M.length)throw new Error('Price lists have different lengths ('+A.length+', '+B.length+', '+M.length+'). Make them match.');
+    const k=+$('freq').value, rfa=+$('rf').value/100, rfp=Math.pow(1+rfa,1/k)-1;
+    const wA=Math.min(100,Math.max(0,+$('wA').value))/100, wB=1-wA;
+    const rA=rets(A),rB=rets(B),rM=rets(M);
+    const rP=rA.map((x,i)=>wA*x+wB*rB[i]);
+    const n=rA.length;
+    const stats=(r,p)=>{
+      const hpr=p[p.length-1]/p[0]-1;
+      const ann=Math.pow(1+hpr,k/n)-1;
+      const vol=sd(r)*Math.sqrt(k);
+      return {hpr,ann,vol};
+    };
+    const beta=r=>cov(r.map(x=>x-rfp),rM.map(x=>x-rfp))/cov(rM.map(x=>x-rfp),rM.map(x=>x-rfp));
+    const alpha=(r,b)=>(mean(r.map(x=>x-rfp))-b*mean(rM.map(x=>x-rfp)))*k;
+    const PP=[1];rP.forEach(x=>PP.push(PP[PP.length-1]*(1+x)));
+    const cols=[
+      {name:$('nA').value||'Stock A',r:rA,p:A},
+      {name:$('nB').value||'Stock B',r:rB,p:B},
+      {name:'Portfolio ('+Math.round(wA*100)+'/'+Math.round(wB*100)+')',r:rP,p:PP},
+      {name:$('nM').value||'Benchmark',r:rM,p:M}
+    ].map(c=>{
+      const s=stats(c.r,c.p),b=beta(c.r),exc=s.ann-rfa;
+      return {...c,...s,beta:b,alpha:alpha(c.r,b),sharpe:exc/s.vol,treynor:exc/b,exb:s.ann-stats(rM,M).ann};
+    });
+    const row=(label,f,fmt)=>'<tr><td>'+label+'</td>'+cols.map(c=>'<td class="n '+(fmt.sign?cls(f(c)):'')+'">'+fmt.fn(f(c))+'</td>').join('')+'</tr>';
+    const P=x=>pct(x),N=x=>num(x,3);
+    $('o1').innerHTML='<h3 style="margin-top:1.5rem">Results ('+n+' periods)</h3><div class="wrap"><table><thead><tr><th>Measure</th>'+cols.map(c=>'<th class="n">'+c.name+'</th>').join('')+'</tr></thead><tbody>'
+      +row('Holding-period return',c=>c.hpr,{fn:P,sign:1})
+      +row('Annualized return',c=>c.ann,{fn:P,sign:1})
+      +row('Excess return vs benchmark (annualized)',c=>c.exb,{fn:P,sign:1})
+      +row('Volatility (annualized)',c=>c.vol,{fn:P})
+      +row('Beta',c=>c.beta,{fn:N})
+      +row('CAPM alpha (annualized)',c=>c.alpha,{fn:P,sign:1})
+      +row('Sharpe ratio',c=>c.sharpe,{fn:N})
+      +row('Treynor ratio',c=>c.treynor,{fn:N})
+      +'</tbody></table></div>'
+      +'<p><strong>Correlation, '+cols[0].name+' vs '+cols[1].name+':</strong> '+num(cov(rA,rB)/(sd(rA)*sd(rB)),3)
+      +'<br><strong>Correlation, '+cols[0].name+' vs '+cols[3].name+':</strong> '+num(cov(rA,rM)/(sd(rA)*sd(rM)),3)+'</p>'
+      +'<details><summary>How to read this</summary><p class="hint">Beta above 1 means the stock tends to move more than the market. A positive alpha means it earned more than CAPM predicts for its beta. Sharpe and Treynor measure return per unit of total risk and market risk. The portfolio is rebalanced to your weights every period. Beta and alpha use periodic excess returns over the risk-free rate.</p></details>';
+  }catch(e){o.innerHTML='<p class="err" role="alert">'+e.message+'</p>'}
+}
+
+function runValuation(){
+  const px=+$('px').value,sh=+$('sh').value,eps=+$('eps').value,dv=+$('dv').value,be=+$('be').value;
+  const mc=px*sh;
+  const rows=[
+    ['Market capitalization','$'+mc.toLocaleString(undefined,{maximumFractionDigits:0})+' million','Price &times; shares outstanding'],
+    ['Price-to-earnings (P/E)',eps>0?num(px/eps,2)+'x':'n/a (EPS must be positive)','Price / EPS'],
+    ['Dividend yield',px>0?pct(dv/px):'n/a','Annual dividend / price'],
+    ['Book-to-market',mc>0&&be>0?num(be/mc,3):'n/a','Book equity / market cap']
+  ];
+  $('o2').innerHTML='<h3 style="margin-top:1.5rem">Results</h3><div class="wrap"><table><thead><tr><th>Measure</th><th class="n">Value</th><th>Formula</th></tr></thead><tbody>'
+    +rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td><td class="hint">'+r[2]+'</td></tr>').join('')+'</tbody></table></div>';
+}
+runReturns();runValuation();
+</script>
+</body>
+</html>
